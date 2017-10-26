@@ -5,6 +5,7 @@
 apt-get update
 apt-get install rrdtool librrds-perl libxml-simple-perl
 ```
+#### scripts
 
 * Used pktwatch.sh to develop pkt_getstats.sh
 * Utilities used to display stats, not used for RRD graphing
@@ -30,6 +31,8 @@ db_fiberpktstatsupdate.sh
   - this calls script pkt_getstats.sh with argument of Interface name
   - Fib, GE1, GE2, GE3, GE4
 
+#### crontab
+
 ```
 # crontab entry
 */5 *  * * *  /home/gunn/bin/db_pktstatsupdate.sh
@@ -40,7 +43,7 @@ cp db_pktstatsupdate.sh ~/bin
 cp *.cgi /usr/lib/cgi-bin
 cp *.cgi /var/www/cgi-bin
 ```
-
+#### permissions
 * setup owner group
 ```
 cd /var/www
@@ -54,6 +57,7 @@ chown -R www-data:www-data cgi-bin
 cd /home/gunn/var/lib/pkt/
 chown -R www-data:www-data rrdtemp
 ```
+
 #### What to graph for each interface
 
 
