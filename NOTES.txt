@@ -1,0 +1,24 @@
+==== Change directory locations for ssd
+
+# m h  dom mon dow   command
+*/5 *   *   *   *   /bin/sh /home/gunn/bin/db_cbwpumpupdate.sh
+*/5 *   *   *   *   /bin/sh /home/gunn/bin/db_xw110_thupdate.sh
+*/5 *   *   *   *   /bin/bash  /home/gunn/bin/db_pktstatsupdate.sh
+
+was
+/home/gunn/var/tmp/cbwtemp
+/home/gunn/var/tmp/pktcnt
+/home/gunn/var/lib/pkt/rrdpkts/*.rrd
+/home/gunn/var/lib/cbw/rrdtemp/*.rrd
+
+is
+/tmp/cbwtemp
+/tmp/pktcnt
+/tmp/lib/pkt/rrdpkts/*.rrd
+/tmp/lib/cbw/rrdtemp/*.rrd
+
+cgi
+pktfiberstats.cgi
+pktgestats.cgi
+pktstats.cgi
+pumptemp.cgi

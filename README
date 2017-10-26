@@ -1,11 +1,12 @@
 ## Scripts for Zhone packet statistic graph
 
-#### install rrdtool
+#### Install rrdtool
 ```
 apt-get update
 apt-get install rrdtool librrds-perl libxml-simple-perl
 ```
 
+#### Shell scripts
 * Used pktwatch.sh to develop pkt_getstats.sh
 * Utilities used to display stats, not used for RRD graphing
 ```
@@ -47,9 +48,15 @@ cd /var/www
 chown -R www-data:www-data cgi-bin
 ```
 
+* set up file with credentials for Zhone home router
+  * Format of file: /etc/zhone.conf
+LOGIN=joeblow
+PASSWORD=secret
+IP_ADDRESS=10.9.8.7
+
 #### March 24, 2016
-* Changed RRDDIR data dir to /media/disk/rrd/var/lib/pkt/rrdzhone
-* Was here: RRDDIR /home/gunn/var/lib/pkt/rrdzhone
+* Changed RRDDIR data dir to /media/disk/rrd/var/lib/pkt/rrd/zhone
+* Was here: RRDDIR: /home/gunn/var/lib/pkt/rrd/zhone
 ```
 cd /home/gunn/var/lib/pkt/
 chown -R www-data:www-data rrdtemp
