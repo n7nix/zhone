@@ -18,7 +18,7 @@ apt-get install rrdtool librrds-perl libxml-simple-perl
 
 * create directory RRDDIR /home/$user/var/lib/cbw/rrdtemp
 
-* Note: The RRDDIR dirctory is used for database files & graph image files and needs to be consistent in these files:
+* Note: The RRDDIR dirctory is used for database files & graph image files and needs to be consistent in the following files:
 ```
 pktgestats.cgi
 db_gepktbuilder.sh
@@ -30,7 +30,7 @@ db_fiberpktstatsupdate.sh
 ```
 
 #### Initialize rrd database files
-* There are 2 database files, one for just the fiber interace & another for the 4 GiG Ethernet interfaces
+* There are 2 database files, one for just the fiber interface & another for the 4 GiG Ethernet interfaces
   * run db_fiberpktbuilder.sh
   * run db_gepktbuilder.sh
 
