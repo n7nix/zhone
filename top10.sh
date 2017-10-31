@@ -3,7 +3,7 @@
 user=$(whoami)
 pkthistory_file="/home/$user/tmp/zhone_pkthistory.txt"
 
-column=2
+column=3
 intf="fib"
 
 if [[ $# -ne 0 ]] ; then
@@ -11,4 +11,4 @@ if [[ $# -ne 0 ]] ; then
    column=$1
 fi
 
-cat $pkthistory_file | tr -s ' ' | sort -r -k $column | grep -i $intf | head -n 10
+cat $pkthistory_file | tr -s ' ' | sort -rn -k $column | grep -i $intf | head -n 10
