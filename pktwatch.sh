@@ -194,6 +194,11 @@ if [ "$RESET_COUNTERS" = "y" ] ; then
       for intf in "Fib" "GE1" "GE2" "GE3" "GE4" ; do
          env LC_ALL=en_US.UTF-8 printf "%s:\t  %'13d  %'10d   %'13d  %'10d\n" $intf ${acc_rxb[$intf]} ${acc_rxf[$intf]} ${acc_txb[$intf]} ${acc_txf[$intf]}
       done
+      echo
+      echo "top ten"
+      echo $PATH
+      echo
+      /home/gunn/bin/top10.sh
       } > $email_file
 
       send_email "Zhone Daily pkt totals for $(date --date="yesterday" "+%b %d %Y")" "$email_file"
