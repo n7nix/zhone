@@ -13,6 +13,7 @@
 
 user=$(whoami)
 pkthistory_file="/home/$user/tmp/zhone_pkthistory.txt"
+pktlastmonth_file="/home/$user/tmp/zhone_pktlastmonth.txt"
 pkthistory_sortfile="/home/$user/tmp/zhone_sortpkthistory.txt"
 intface_names="Fib GE1 GE2 GE3 GE4"
 
@@ -24,6 +25,32 @@ function usage() {
    echo "   -n display_lines  (integer > 0)"
 }
 
+# ===== function rank_all
+function rank_all() {
+    history_file="$1"
+    # Find ranking of last packet count
+    yesterdate=$(date --date="yesterday" "+%Y%m%d")
+    rank=$(cat $history_file | tr -s ' ' | tr -d ',' | grep -i $intf | sort -rg -k $column | grep -n $yesterdate | cut -d: -f1)
+
+    # Find total number of days worth of packet counts
+    hist_cnt=$(cat $history_file | grep -i $intf | wc -l)
+
+    echo "Rank: $rank out of $hist_cnt"
+    echo
+    cat $history_file | tr -s ' ' | tr -d ',' | grep -i $intf | sort -rg -k $column | head -n $display
+}
+
+# ===== create_month_file
+function create_month_file() {
+    cutdate="$1"
+    rm $pktlastmonth_file
+    while IFS= read -r line; do
+	read -r x d <<< "$line"
+	if (( $(echo $line | cut -d' ' -f1) >= $cutdate )); then
+	    printf '%s\n' "$line" >> $pktlastmonth_file
+	fi
+    done < $pkthistory_file
+}
 # ===== main
 
 # set defaults
@@ -72,20 +99,20 @@ done
 
 echo "Sort on column number: $column, for interface: $intf, display top: $display"
 
+# Get last packet count
+yesterdate=$(date --date="yesterday" "+%Y%m%d")
+
+value=$(cat $pkthistory_file | tr -s ' ' | grep -i $intf | grep -i $yesterdate | cut -d' ' -f3)
+echo "pkt cnt: $value on $(date)"
+
 # Collapse spaces & tabs
 #sed -i -e "s/[[:space:]]\+/ /g" $pkthistory_file
 
-# Find ranking of last packet count
-yesterdate=$(date --date="yesterday" "+%Y%m%d")
-rank=$(cat $pkthistory_file | tr -s ' ' | tr -d ',' | grep -i $intf | sort -rg -k $column | grep -n $yesterdate | cut -d: -f1)
+rank_all $pkthistory_file
 
-# Find total number of days worth of packet counts
-hist_cnt=$(cat $pkthistory_file | grep -i $intf | wc -l)
+# Create history file for last month
 
-# Get last packet count
-value=$(cat $pkthistory_file | tr -s ' ' | grep -i $intf | grep -i $yesterdate | cut -d' ' -f3)
-# echo "Value: $value"
-
-echo "Rank: $rank out of $hist_cnt, pkt cnt: $value"
+cutdate=$(date -d "1 month ago" '+%Y%m%d')
+create_month_file $cutdate
 echo
-cat $pkthistory_file | tr -s ' ' | tr -d ',' | grep -i $intf | sort -rg -k $column | head -n $display
+rank_all $pktlastmonth_file
